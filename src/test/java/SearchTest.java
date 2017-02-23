@@ -1,25 +1,43 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.Assert;
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.*;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.codeborne.selenide.Configuration;
+import com.task.pages.FundaSearchPage;
+import com.task.pages.ResultPage;
+
 
 
 public class SearchTest
 {
+    // WebDriver driver = new FirefoxDriver();
+
     @Test
     public void testSearch()
     {
+        FundaSearchPage searchPage = open("http://www.funda.nl/", FundaSearchPage.class);
+        ResultPage resultPage = searchPage.search("Amsterdam");
 
-        WebDriver driver = new FirefoxDriver();
+        resultPage.results().get(0).shouldHave(text("Amsterdam"));
+    }
 
-        driver.navigate().to("http://www.funda.nl/");
-        driver.findElement(By.id("autocomplete-input")).sendKeys("Amsterdam");
-        driver.findElement(By.className("button-primary-alternative")).click();
 
-        Assert.assertTrue(driver.getTitle().startsWith("Selenium Simplified"), "title should start differently");
+    @BeforeClass
+    public void setUp()
+    {
+        Configuration.browser = "chrome";
+        Configuration.timeout = 6000;
+    }
 
-        driver.close();
-        driver.quit();
+
+
+    @AfterMethod
+    public void tearDown()
+    {
+        // driver.close();
+        // driver.quit();
     }
 }
