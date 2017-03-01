@@ -1,7 +1,9 @@
 
 package com.task.pages;
 
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.page;
+
 
 public class FundaSearchPage
 {
@@ -12,6 +14,7 @@ public class FundaSearchPage
     static final String FROMPRICE_DROPDOWN = "#range-filter-selector-select-filter_fundakoopprijsvan";
     static final String TOPRICE_DROPDOWN = "#range-filter-selector-select-filter_fundakoopprijstot";
 
+    public static final String URL = "http://www.funda.nl/";
 
     public ResultPage search(String place)
     {
@@ -27,10 +30,7 @@ public class FundaSearchPage
         $(DISTANCE_DROPDOWN).selectOption(distance);
         $(FROMPRICE_DROPDOWN).selectOption(fromPrice);
         $(TOPRICE_DROPDOWN).selectOption(toPrice);
-
-
         $(SEARCH_BUTTON).click();
         return page(ResultPage.class);
-
     }
 }
